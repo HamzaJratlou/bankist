@@ -77,15 +77,18 @@ const displayMovements = function (movements) {
 
 const calDisplayBalance = function (movements) {
   const balance = movements.reduce((acc, cur) => acc + cur, 0);
-  labelBalance.innerHTML = `${balance}€`;
+  labelBalance.textContent = `${balance}€`;
 }
 
 const calDisplaySummary = function (movements) {
   const deposits = movements.filter((mov) => mov > 0).reduce((acc, mov) => acc + mov, 0);
   const withdrawals = movements.filter((mov) => mov < 0).reduce((acc, mov) => acc + Math.abs(mov), 0);
-  labelSumIn.innerHTML = `${deposits}€`;
-  labelSumOut.innerHTML = `${withdrawals}€`;
+  const interest = movements.filter((mov) => mov > 0).map((mov) => mov * 1.2 /100).filter(mov => mov >=1).reduce((acc, mov) => acc + mov);
+  labelSumIn.textContent = `${deposits}€`;
+  labelSumOut.textContent = `${withdrawals}€`;
+  labelSumInterest.textContent = `${interest}€`;
 }
+
 
 const computeUserName = function (accounts) {
   accounts.forEach(function(account) {
@@ -101,7 +104,7 @@ const computeUserName = function (accounts) {
 // Assuming containerMovements is a valid DOM element
 displayMovements(account1.movements);
 computeUserName(accounts);
-calPrintBalance(account1.movements);
+calDisplayBalance(account1.movements);
 calDisplaySummary(account1.movements);
 
 /////////////////////////////////////////////////
